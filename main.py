@@ -1,15 +1,18 @@
-seq = []
+# 4096 - 32767
+c = 0
+for i in range(4096, 32768):
+    i = oct(i)[2:]
+    i = list(map(int, str(i)))
+    if i.count(6) != 1:
+        continue
+    ind = i.index(6)
+    if ind != 0:
+        if ind != len(i) - 1:
+            c += 1 if i[ind - 1] % 2 == 0 and i[ind + 1] % 2 == 0 else 0
+        else:
+            c += 1 if i[ind - 1] % 2 == 0 else 0
+    else:
+        c += 1 if i[ind + 1] % 2 == 0 else 0
 
 
-def split_chunks(arr: list, n: int) -> list:
-    return [arr[i:i + n] for i in range(0, len(arr), n)]
-
-
-with open("17.txt", "r") as f:
-    for line in f.readlines():
-        seq.append(int(line[:-1]))
-me = max(map(lambda x: 0 if x[-1] != 3 else int(x)**2))
-
-seq = split_chunks(seq, 2)
-for pair in seq:
-    s = pair[0]**2 + pair[1]**2
+print(c)
